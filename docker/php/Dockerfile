@@ -13,6 +13,12 @@ COPY docker/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY docker/php/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+ARG UID=1000
+ARG GID=1000
+
+RUN groupadd -g $GID app && \
+    useradd -u $UID -g app -m app
+
 WORKDIR /var/www
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["php-fpm"]
